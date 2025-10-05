@@ -39,12 +39,7 @@ venv.bak/
 *~
 
 # Output files
-chapters/
-demo_chapters/
-*.md
-!README.md
-!AI_INSTRUCTIONS.md
-chapter_metadata.json
+output/
 
 # OS
 .DS_Store
