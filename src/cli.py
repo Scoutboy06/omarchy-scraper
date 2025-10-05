@@ -1,16 +1,7 @@
 #!/usr/bin/env python3
 """
-Main entry point for the Omarchy Manual Scraper.
-
-Usage:
-    python main.py [options]
-
-Options:
-    --help              Show this help message
-    --dry-run           Run without saving files
-    --list-links        Only show chapter links
-    --output-dir DIR    Set output directory
-    --verbose           Show detailed output
+Command-line interface for the Omarchy Manual Scraper.
+This module serves as the entry point when installed as a package.
 """
 
 import asyncio
@@ -18,14 +9,21 @@ import argparse
 import sys
 from pathlib import Path
 
-from src import OmarchyScraper, Config, default_config
+from . import OmarchyScraper, Config
 
 
 def create_parser():
     """Create command-line argument parser."""
     parser = argparse.ArgumentParser(
         description="Scrape The Omarchy Manual and convert to Markdown",
-        formatter_class=argparse.RawDescriptionHelpFormatter
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  omarchy-scraper                    # Download all chapters
+  omarchy-scraper --list-links       # Show available chapters
+  omarchy-scraper --dry-run          # Test without saving files
+  omarchy-scraper --output-dir docs  # Custom output directory
+        """
     )
     
     parser.add_argument(
@@ -43,8 +41,8 @@ def create_parser():
     parser.add_argument(
         '--output-dir',
         type=Path,
-        default=default_config.output_dir,
-        help=f'Output directory (default: {default_config.output_dir})'
+        default=Path.cwd() / "omarchy_manual",
+        help='Output directory (default: ./omarchy_manual/)'
     )
     
     parser.add_argument(
@@ -53,11 +51,17 @@ def create_parser():
         help='Show detailed output'
     )
     
+    parser.add_argument(
+        '--version',
+        action='version',
+        version='%(prog)s 1.0.0'
+    )
+    
     return parser
 
 
-async def main():
-    """Main entry point."""
+async def async_main():
+    """Async main function."""
     parser = create_parser()
     args = parser.parse_args()
     
@@ -105,5 +109,14 @@ async def main():
         sys.exit(1)
 
 
+def main():
+    """Main entry point for the CLI."""
+    try:
+        asyncio.run(async_main())
+    except KeyboardInterrupt:
+        print("\n⏹️  Interrupted by user")
+        sys.exit(1)
+
+
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()

@@ -230,8 +230,9 @@ class OmarchyScraper:
             print("🔍 DRY RUN MODE - No files will be saved")
         
         try:
-            # Ensure output directory exists
-            self.config.output_dir.mkdir(exist_ok=True)
+            # Ensure output directories exist
+            self.config.output_dir.mkdir(parents=True, exist_ok=True)
+            self.config.chapters_dir.mkdir(parents=True, exist_ok=True)
             
             await self._create_session()
             

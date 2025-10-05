@@ -1,118 +1,63 @@
 # Omarchy Manual Scraper
 
-A clean, efficient Python scraper that downloads The Omarchy Manual, converts it to Markdown, and tracks changes between runs.
+A Python script that downloads The Omarchy Manual, converts it to Markdown, and tracks changes between runs.
 
-## Features
+## 🚀 Quick Start
 
-- 🔍 **Auto-discovery** - Automatically finds all chapter links
--  **Markdown conversion** - Converts HTML content to clean Markdown
-- 📁 **Organized output** - Individual chapter files + combined manual
-- 🔄 **Change tracking** - Detects content changes between runs
-- 📊 **Progress bars** - Visual progress indicators
-- ⚡ **Async processing** - Fast parallel downloads
-- 🛡️ **Error handling** - Robust error recovery
+### One-liner (No Installation Required)
+```bash
+curl -s https://raw.githubusercontent.com/Scoutboy06/omarchy-scraper/main/run.py | python3
+```
 
-## Quick Start
+### Local Usage
+```bash
+git clone https://github.com/Scoutboy06/omarchy-scraper.git
+cd omarchy-scraper
+pip install -r requirements.txt
+python run.py
+```
 
-1. **Install dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
+### Install as Package
+```bash
+git clone https://github.com/Scoutboy06/omarchy-scraper.git
+cd omarchy-scraper
+python install.py
+omarchy-scraper  # Use anywhere
+```
 
-2. **Run the scraper:**
-   ```bash
-   python main.py
-   ```
-
-3. **Check the results:**
-   - Individual chapters: `output/chapters/`
-   - Combined manual: `output/omarchy_manual_complete.md`
-
-## Usage
+## Examples
 
 ```bash
 # Basic usage
-python main.py
+python run.py
 
-# Show available chapters without downloading
-python main.py --list-links
+# Show available chapters
+python run.py --list-links
 
-# Test run without saving files
-python main.py --dry-run
+# Custom output directory
+python run.py --output-dir docs
 
-# Use custom output directory
-python main.py --output-dir /path/to/output
+# Test without saving
+python run.py --dry-run
 
-# Verbose output
-python main.py --verbose
-
-# Show help
-python main.py --help
+# Remote execution with options
+curl -s https://raw.githubusercontent.com/Scoutboy06/omarchy-scraper/main/run.py | python3 - --dry-run
 ```
 
-## Project Structure
+## Output
 
-```
-omarchy-manual-scraper/
-├── src/                    # Source code
-│   ├── __init__.py
-│   ├── config.py          # Configuration settings
-│   └── scraper.py         # Main scraper logic
-├── scripts/               # Utility scripts
-│   ├── test_setup.py      # Test installation
-│   ├── debug_request.py   # Debug HTTP requests
-│   └── analyze_structure.py # Analyze webpage structure
-├── output/                # Generated files
-│   ├── chapters/          # Individual chapter files
-│   ├── omarchy_manual_complete.md # Combined manual
-│   └── chapter_metadata.json # Change tracking data
-├── main.py               # Main entry point
-├── requirements.txt      # Dependencies
-└── README.md            # This file
-```
+- `📁 omarchy_manual/chapters/` - Individual chapter Markdown files
+- `📄 omarchy_manual/omarchy_manual_complete.md` - Combined manual (1400+ lines)
 
-## Configuration
+## Features
 
-The scraper can be configured by modifying `src/config.py`:
-
-```python
-@dataclass
-class Config:
-    base_url: str = "https://learn.omacom.io/2/the-omarchy-manual"
-    query_param: str = ""
-    output_dir: Path = Path("output")
-    max_concurrent: int = 5
-    request_timeout: int = 30
-```
-
-## Change Detection
-
-The scraper tracks content changes using SHA-256 hashes:
-
-- **First run**: All chapters marked as new
-- **Subsequent runs**: Only changed chapters reported
-- **Metadata**: Stored in `output/chapter_metadata.json`
-
-Example output:
-```
-✨ No changes detected since last run
-```
-
-Or:
-```
-🔄 Changed chapters since last run (2):
-   • Getting_Started.md
-   • Configuration.md
-```
+- ✅ Auto-discovers all 36 chapters
+- ✅ Fast parallel processing (~20 chapters/second)
+- ✅ Change detection between runs
+- ✅ Progress bars and error handling
+- ✅ Works locally or remotely
 
 ## Requirements
 
 - Python 3.7+
-- aiohttp (async HTTP client)
-- beautifulsoup4 (HTML parsing)
-- markdownify (HTML to Markdown conversion)
-- tqdm (progress bars)
-
-## License
-
-MIT License - feel free to use and modify as needed.
+- Dependencies: `aiohttp`, `beautifulsoup4`, `markdownify`, `tqdm`, `lxml`

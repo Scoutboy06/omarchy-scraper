@@ -38,8 +38,13 @@ venv.bak/
 *.swo
 *~
 
-# Output files
+# Output files and directories
 output/
+omarchy_manual/
+docs/
+*.md
+!README.md
+chapter_metadata.json
 
 # OS
 .DS_Store

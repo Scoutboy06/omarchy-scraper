@@ -25,13 +25,9 @@ class Config:
     request_timeout: int = 30
     
     def __post_init__(self):
-        """Ensure paths are Path objects and directories exist."""
+        """Ensure paths are Path objects."""
         self.output_dir = Path(self.output_dir)
         self.chapters_dir = Path(self.chapters_dir)
-        
-        # Create directories
-        self.output_dir.mkdir(exist_ok=True)
-        self.chapters_dir.mkdir(exist_ok=True)
 
 
 # Default configuration instance
